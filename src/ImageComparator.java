@@ -3,8 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
+
 
 public class ImageComparator {
 
@@ -57,27 +56,12 @@ public class ImageComparator {
             // Calcular a similaridade
             double porcentagemSimilaridade = ((totalPixels - pixelsDiferentes) / (double) totalPixels) * 100;
 
-            // Criar o relatório HTML
-            String htmlReport = "<html><body>" +
-                    "<h1>Relatório de Comparação de Imagens</h1>" +
-                    "<h2>Similaridade: " + String.format("%.2f", porcentagemSimilaridade) + "%</h2>" +
-                    "<h3>Imagem 1:</h3>" +
-                    "<img src='img1.png' alt='Imagem 1' style='width: 45%; margin-right: 5%; float:left;' />" +
-                    "<h3>Imagem 2:</h3>" +
-                    "<img src='img2.png' alt='Imagem 2' style='width: 45%; float:left;' />" +
-                    "<h3>Diferenças (em vermelho):</h3>" +
-                    "<img src='diff.png' alt='Imagem com as diferenças' style='width: 100%;' />" +
-                    "</body></html>";
-
-            // Salvar o relatório HTML
-            FileWriter writer = new FileWriter("relatorio_comparacao_com_mascara.html");
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);
-            bufferedWriter.write(htmlReport);
-            bufferedWriter.close();
-
             // Salvar a imagem de diferença
             File outputfile = new File("diff.png");
             ImageIO.write(diffImage, "PNG", outputfile);
+
+            // Gerar o relatório HTML
+            HtmlReportGenerator.generateHtmlReport(totalPixels, pixelsDiferentes, porcentagemSimilaridade);
 
             System.out.println("Relatório HTML gerado com sucesso!");
 
